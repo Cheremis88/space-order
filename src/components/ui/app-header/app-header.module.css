@@ -15,13 +15,21 @@
 }
 
 .link {
-  display: flex;
-  text-decoration: none;
+  text-decoration: underline wavy;
+  text-underline-offset: -4px;
+  text-decoration-color: transparent;
   color: var(--text-inactive-color);
+  transition: 0.3s;
 }
 
 .link_active {
   color: var(--text-primary-color);
+  pointer-events: none;
+}
+
+.link:hover {
+  text-decoration-color: inherit;
+  text-underline-offset: 4px;
 }
 
 .link_position_last {
