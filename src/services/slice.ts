@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { TConstructorIngredient, TIngredient } from '@utils-types';
+import { TConstructorIngredient, TIngredient, TOrdersData } from '@utils-types';
 import { getIngredientsApi } from '@api';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { getFeedsApi } from '@api';
 
 type TAppState = {
   ingredients: {
+    all: TIngredient[];
     buns: TIngredient[];
     mains: TIngredient[];
     sauces: TIngredient[];
@@ -14,12 +16,14 @@ type TAppState = {
     bun: TIngredient | null;
     ingredients: TConstructorIngredient[];
   };
+  feeds: TOrdersData | null;
   loading: boolean;
   error: string;
 };
 
 const appState: TAppState = {
   ingredients: {
+    all: [],
     buns: [],
     mains: [],
     sauces: []
@@ -28,6 +32,7 @@ const appState: TAppState = {
     bun: null,
     ingredients: []
   },
+  feeds: null,
   loading: true,
   error: ''
 };
@@ -64,6 +69,9 @@ const mainSlice = createSlice({
     },
     selectFetchStatus(state) {
       return [state.loading, state.error];
+    },
+    selectFeeds(state) {
+      return state.feeds;
     }
   },
   extraReducers: (builder) => {
@@ -77,6 +85,7 @@ const mainSlice = createSlice({
         state.error = 'Не удалось загрузить данные';
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
+        state.ingredients.all = action.payload;
         state.ingredients.buns = action.payload.filter(
           (item) => item.type === 'bun'
         );
@@ -88,6 +97,19 @@ const mainSlice = createSlice({
         );
         state.loading = false;
         state.error = '';
+      })
+      .addCase(fetchFeeds.pending, (state) => {
+        state.loading = true;
+        state.error = '';
+      })
+      .addCase(fetchFeeds.rejected, (state) => {
+        state.loading = false;
+        state.error = 'Не удалось загрузить данные';
+      })
+      .addCase(fetchFeeds.fulfilled, (state, action) => {
+        state.feeds = action.payload;
+        state.loading = false;
+        state.error = '';
       });
   }
 });
@@ -97,7 +119,15 @@ export const fetchIngredients = createAsyncThunk(
   async () => getIngredientsApi()
 );
 
+export const fetchFeeds = createAsyncThunk('feeds/getAll', async () =>
+  getFeedsApi()
+);
+
 export const { addIngredient, moveItem, removeItem } = mainSlice.actions;
-export const { selectIngredients, selectFetchStatus, selectConstructor } =
-  mainSlice.selectors;
+export const {
+  selectIngredients,
+  selectFetchStatus,
+  selectConstructor,
+  selectFeeds
+} = mainSlice.selectors;
 export const mainReducer = mainSlice.reducer;

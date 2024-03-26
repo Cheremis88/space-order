@@ -26,9 +26,7 @@ export const ConstructorPage: FC = () => {
         </h3>
       ) : (
         <main className={styles.containerMain}>
-          <h1
-            className={`${styles.title} text text_type_main-large mt-10 mb-5`}
-          >
+          <h1 className={`text text_type_main-large mt-10 mb-5`}>
             Соберите бургер
           </h1>
           <div className={styles.main}>
