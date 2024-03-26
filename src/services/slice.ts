@@ -1,37 +1,103 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { TIngredient } from "@utils-types";
-import { getIngredientsApi } from "@api";
+import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { TConstructorIngredient, TIngredient } from '@utils-types';
+import { getIngredientsApi } from '@api';
+import { PayloadAction } from '@reduxjs/toolkit';
 
-type TBurgerState = {
-  ingredients: TIngredient[]
-}
+type TAppState = {
+  ingredients: {
+    buns: TIngredient[];
+    mains: TIngredient[];
+    sauces: TIngredient[];
+  };
+  constructor: {
+    bun: TIngredient | null;
+    ingredients: TConstructorIngredient[];
+  };
+  loading: boolean;
+  error: string;
+};
 
-const burgerState: TBurgerState = {
-  ingredients: []
-}
+const appState: TAppState = {
+  ingredients: {
+    buns: [],
+    mains: [],
+    sauces: []
+  },
+  constructor: {
+    bun: null,
+    ingredients: []
+  },
+  loading: true,
+  error: ''
+};
 
-const burgerSlice = createSlice({
-  name: 'test',
-  initialState: burgerState,
-  reducers: {},
+const mainSlice = createSlice({
+  name: 'main',
+  initialState: appState,
+  reducers: {
+    addIngredient(state, action: PayloadAction<TConstructorIngredient>) {
+      action.payload.type === 'bun'
+        ? (state.constructor.bun = action.payload)
+        : state.constructor.ingredients.push(action.payload);
+    },
+    moveItem(state, action: PayloadAction<[number, number]>) {
+      let index = action.payload[0];
+      let sign = action.payload[1];
+      let item = state.constructor.ingredients[index];
+      state.constructor.ingredients[index] =
+        state.constructor.ingredients[index + sign];
+      state.constructor.ingredients[index + sign] = item;
+    },
+    removeItem(state, action: PayloadAction<string>) {
+      state.constructor.ingredients = state.constructor.ingredients.filter(
+        (item) => item.id !== action.payload
+      );
+    }
+  },
   selectors: {
-    selectTest: (sliceState) => {
-      return sliceState.ingredients;
+    selectIngredients(state) {
+      return state.ingredients;
+    },
+    selectConstructor(state) {
+      return state.constructor;
+    },
+    selectFetchStatus(state) {
+      return [state.loading, state.error];
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTest.fulfilled, (state, action) => {
-        state.ingredients = action.payload;
+      .addCase(fetchIngredients.pending, (state) => {
+        state.loading = true;
+        state.error = '';
+      })
+      .addCase(fetchIngredients.rejected, (state) => {
+        state.loading = false;
+        state.error = 'Не удалось загрузить данные';
+      })
+      .addCase(fetchIngredients.fulfilled, (state, action) => {
+        state.ingredients.buns = action.payload.filter(
+          (item) => item.type === 'bun'
+        );
+        state.ingredients.mains = action.payload.filter(
+          (item) => item.type === 'main'
+        );
+        state.ingredients.sauces = action.payload.filter(
+          (item) => item.type === 'sauce'
+        );
+        state.loading = false;
+        state.error = '';
       });
   }
 });
 
-export const fetchTest = createAsyncThunk(
-  'ingred/getAll',
+export const fetchIngredients = createAsyncThunk(
+  'ingredients/getAll',
   async () => getIngredientsApi()
-)
+);
 
-export const { selectTest } = burgerSlice.selectors;
-export const burgerReducer = burgerSlice.reducer;
+export const { addIngredient, moveItem, removeItem } = mainSlice.actions;
+export const { selectIngredients, selectFetchStatus, selectConstructor } =
+  mainSlice.selectors;
+export const mainReducer = mainSlice.reducer;

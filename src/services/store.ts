@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { burgerReducer } from './slice';
+import { mainReducer } from './slice';
 import {
   TypedUseSelectorHook,
   useDispatch as dispatchHook,
@@ -8,7 +8,7 @@ import {
 
 const store = configureStore({
   reducer: {
-    test: burgerReducer
+    main: mainReducer
   },
   devTools: process.env.NODE_ENV !== 'production'
 });

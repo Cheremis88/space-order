@@ -1,16 +1,15 @@
 import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from '../../services/store';
-import { selectTest, fetchTest } from '../../services/slice';
+import { selectIngredients } from '../../services/slice';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 
 export const BurgerIngredients: FC = () => {
-  const ingd = useSelector(selectTest);
-  const dispatch = useDispatch();
-  const buns = ingd.filter(item => item.type === 'bun');
-  const mains = ingd.filter(item => item.type === 'main');
-  const sauces = ingd.filter(item => item.type === 'sauce');
+  const ingredients = useSelector(selectIngredients);
+  const buns = ingredients.buns;
+  const mains = ingredients.mains;
+  const sauces = ingredients.sauces;
 
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
   const titleBunRef = useRef<HTMLHeadingElement>(null);
@@ -28,9 +27,7 @@ export const BurgerIngredients: FC = () => {
   const [saucesRef, inViewSauces] = useInView({
     threshold: 0
   });
-  useEffect(() => {
-    dispatch(fetchTest());
-  }, []);
+
   useEffect(() => {
     if (inViewBuns) {
       setCurrentTab('bun');
