@@ -20,6 +20,14 @@
   justify-content: center;
 }
 
+.img {
+  transition: 0.3s;
+}
+
+.img:hover {
+  scale: 1.1;
+}
+
 .text {
   text-align: center;
 }
@@ -27,8 +35,14 @@
 .addButton {
   width: 260px;
   justify-content: center;
+  transition: 0.3s;
 }
 
 .addButton:hover {
-  scale: 1.1;
+  color: var(--colors-interface-success);
+}
+
+.addButton:hover svg path{
+  transition: 0.3s;
+  fill: var(--colors-interface-success);
 }

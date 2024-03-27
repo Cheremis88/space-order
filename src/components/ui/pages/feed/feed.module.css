@@ -32,3 +32,16 @@
   overflow-x: hidden;
   width: 580px;
 }
+
+.refresh {
+  transition: 0.3s;
+}
+
+.refresh:hover {
+  color: var(--colors-interface-success);
+}
+
+.refresh:hover svg path{
+  transition: 0.3s;
+  fill: var(--colors-interface-success);
+}

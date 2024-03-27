@@ -47,12 +47,11 @@ const mainSlice = createSlice({
         : state.constructor.ingredients.push(action.payload);
     },
     moveItem(state, action: PayloadAction<[number, number]>) {
-      let index = action.payload[0];
-      let sign = action.payload[1];
+      let [index, shift] = action.payload;
       let item = state.constructor.ingredients[index];
       state.constructor.ingredients[index] =
-        state.constructor.ingredients[index + sign];
-      state.constructor.ingredients[index + sign] = item;
+        state.constructor.ingredients[index + shift];
+      state.constructor.ingredients[index + shift] = item;
     },
     removeItem(state, action: PayloadAction<string>) {
       state.constructor.ingredients = state.constructor.ingredients.filter(
