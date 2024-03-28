@@ -19,8 +19,15 @@ import {
   ProfileOrders,
   NotFound404
 } from '@pages';
+import { useSelector, useDispatch } from '../../services/store';
+import { selectUser, fetchUser } from '../../services/slice';
+import { useEffect } from 'react';
 
 export default function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, []);
   const location = useLocation();
   const background = location.state?.background;
   const navigate = useNavigate();
@@ -35,7 +42,7 @@ export default function App() {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Login />
             </ProtectedRoute>
           }
@@ -43,7 +50,7 @@ export default function App() {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Register />
             </ProtectedRoute>
           }
@@ -80,7 +87,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route path='/profile/orders/:id' element={<ProtectedRoute />} />
+        
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 

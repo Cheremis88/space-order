@@ -20,7 +20,7 @@ export const Profile: FC = () => {
       name: user?.name || '',
       email: user?.email || ''
     }));
-  }, [user]);
+  }, []); //user
 
   const isFormChanged =
     formValue.name !== user?.name ||

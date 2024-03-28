@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrdersData } from '@utils-types';
-import { getIngredientsApi } from '@api';
+import { TRegisterData, getIngredientsApi, getUserApi, registerUserApi } from '@api';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
+import { TUser } from '@utils-types';
 
 type TAppState = {
   ingredients: {
@@ -17,6 +18,8 @@ type TAppState = {
     ingredients: TConstructorIngredient[];
   };
   feeds: TOrdersData | null;
+  user: TUser;
+  checkAuth: boolean;
   loading: boolean;
   error: string;
 };
@@ -33,6 +36,11 @@ const appState: TAppState = {
     ingredients: []
   },
   feeds: null,
+  user: {
+    name: '',
+    email: ''
+  },
+  checkAuth: false,
   loading: true,
   error: ''
 };
@@ -71,6 +79,12 @@ const mainSlice = createSlice({
     },
     selectFeeds(state) {
       return state.feeds;
+    },
+    selectUser(state) {
+      return state.user;
+    },
+    selectAuth(state) {
+      return state.checkAuth;
     }
   },
   extraReducers: (builder) => {
@@ -109,6 +123,20 @@ const mainSlice = createSlice({
         state.feeds = action.payload;
         state.loading = false;
         state.error = '';
+      })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.checkAuth = true;
+        console.log(action.error.message);
+      })
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        state.checkAuth = true;
+        state.user = action.payload.user;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        console.log(action.error.message);
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.user = action.payload;
       });
   }
 });
@@ -122,11 +150,21 @@ export const fetchFeeds = createAsyncThunk('feeds/getAll', async () =>
   getFeedsApi()
 );
 
+export const fetchUser = createAsyncThunk('user/get', async () =>
+  getUserApi()
+);
+
+export const registerUser = createAsyncThunk('user/reg', async (user: TRegisterData) =>
+  registerUserApi(user)
+);
+
 export const { addIngredient, moveItem, removeItem } = mainSlice.actions;
 export const {
   selectIngredients,
   selectFetchStatus,
   selectConstructor,
-  selectFeeds
+  selectFeeds,
+  selectUser,
+  selectAuth
 } = mainSlice.selectors;
 export const mainReducer = mainSlice.reducer;

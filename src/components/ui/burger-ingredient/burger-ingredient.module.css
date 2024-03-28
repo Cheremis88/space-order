@@ -34,15 +34,21 @@
 
 .addButton {
   width: 260px;
+  color: var(--colors-interface-success);
   justify-content: center;
   transition: 0.3s;
 }
 
 .addButton:hover {
-  color: var(--colors-interface-success);
+  color: white;
+}
+
+.addButton svg path{
+  transition: 0.3s;
+  fill: var(--colors-interface-success);
 }
 
 .addButton:hover svg path{
   transition: 0.3s;
-  fill: var(--colors-interface-success);
+  fill: white;
 }
