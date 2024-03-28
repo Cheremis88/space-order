@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrdersData } from '@utils-types';
-import { TRegisterData, getIngredientsApi, getUserApi, registerUserApi } from '@api';
+import { TRegisterData, getIngredientsApi, getUserApi, registerUserApi, orderBurgerApi, TLoginData, loginUserApi } from '@api';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
-import { TUser } from '@utils-types';
+import { TUser, TOrder } from '@utils-types';
 
 type TAppState = {
   ingredients: {
@@ -19,6 +19,10 @@ type TAppState = {
   };
   feeds: TOrdersData | null;
   user: TUser;
+  order: {
+    number: number,
+    request: boolean,
+  }
   checkAuth: boolean;
   loading: boolean;
   error: string;
@@ -40,6 +44,10 @@ const appState: TAppState = {
     name: '',
     email: ''
   },
+  order: {
+    number: 0,
+    request: false
+  },
   checkAuth: false,
   loading: true,
   error: ''
@@ -53,6 +61,15 @@ const mainSlice = createSlice({
       action.payload.type === 'bun'
         ? (state.constructor.bun = action.payload)
         : state.constructor.ingredients.push(action.payload);
+    },
+    resetConstructor(state) {
+      state.constructor = {
+        bun: null,
+        ingredients: []
+      }
+    },
+    resetOrder(state) {
+      state.order.number = 0;
     },
     moveItem(state, action: PayloadAction<[number, number]>) {
       let [index, shift] = action.payload;
@@ -85,6 +102,9 @@ const mainSlice = createSlice({
     },
     selectAuth(state) {
       return state.checkAuth;
+    },
+    selectOrder(state) {
+      return state.order;
     }
   },
   extraReducers: (builder) => {
@@ -137,6 +157,23 @@ const mainSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.user = action.payload;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        console.log(action.error.message);
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(orderBurger.pending, (state) => {
+        state.order.request = true;
+      })
+      .addCase(orderBurger.rejected, (state, action) => {
+        state.order.request = false;
+        console.log(action.error.message);
+      })
+      .addCase(orderBurger.fulfilled, (state, action) => {
+        state.order.request = false;
+        state.order.number = action.payload.order.number;
       });
   }
 });
@@ -158,13 +195,22 @@ export const registerUser = createAsyncThunk('user/reg', async (user: TRegisterD
   registerUserApi(user)
 );
 
-export const { addIngredient, moveItem, removeItem } = mainSlice.actions;
+export const loginUser = createAsyncThunk('user/login', async (user: TLoginData) =>
+  loginUserApi(user)
+);
+
+export const orderBurger = createAsyncThunk('order/post', async (ingreds: string[]) =>
+  orderBurgerApi(ingreds)
+);
+
+export const { addIngredient, moveItem, removeItem, resetConstructor, resetOrder } = mainSlice.actions;
 export const {
   selectIngredients,
   selectFetchStatus,
   selectConstructor,
   selectFeeds,
   selectUser,
-  selectAuth
+  selectAuth,
+  selectOrder
 } = mainSlice.selectors;
 export const mainReducer = mainSlice.reducer;
