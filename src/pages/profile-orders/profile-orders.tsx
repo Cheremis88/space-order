@@ -11,7 +11,7 @@ export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchHistory());
-  })
+  }, []);
 
   if (!orders.length) {
     return <Preloader />;

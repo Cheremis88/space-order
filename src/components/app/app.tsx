@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
 import {
@@ -104,7 +104,7 @@ export default function App() {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title='INGRED' onClose={() => navigate(-1)}>
+              <Modal title='Детали ингредиента' onClose={() => navigate(-1)}>
                 <IngredientDetails />
               </Modal>
             }
@@ -112,7 +112,7 @@ export default function App() {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='INGRED' onClose={() => navigate(-1)}>
+              <Modal title='Информация о заказе' onClose={() => navigate(-1)}>
                 <OrderInfo />
               </Modal>
             }
@@ -120,7 +120,7 @@ export default function App() {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title='INGRED' onClose={() => navigate(-1)}>
+              <Modal title='Информация о заказе' onClose={() => navigate(-1)}>
                 <OrderInfo />
               </Modal>
             }

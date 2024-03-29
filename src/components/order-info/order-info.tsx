@@ -4,23 +4,29 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from '../../services/store';
-import { selectIngredients, selectFeeds } from '../../services/slice';
+import { selectIngredients, selectFeeds, selectHistory, fetchHistory } from '../../services/slice';
 import { useEffect } from 'react';
 import { fetchIngredients, fetchFeeds } from '../../services/slice';
+import { useLocation } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
+  const location = useLocation();
+  const isUserOrder = location.pathname.includes('profile');
+  const isOutside = !location.state?.background;
   const ingredients = useSelector(selectIngredients).all;
-  const orders = useSelector(selectFeeds);
+  const userOrders = useSelector(selectHistory);
+  const feed = useSelector(selectFeeds);
+  const orders = isUserOrder ? userOrders : feed?.orders;
   const dispatch = useDispatch();
   const { number } = useParams();
-  const orderData = orders?.orders.find(
+  const orderData = orders?.find(
     (item) => item.number === Number(number)
   );
 
   useEffect(() => {
-    if (!orders) {
-      dispatch(fetchFeeds());
+    if (isOutside) {
       dispatch(fetchIngredients());
+      isUserOrder ? dispatch(fetchHistory()) : dispatch(fetchFeeds());
     }
   }, []);
 
