@@ -58,7 +58,7 @@ export default function App() {
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ForgotPassword />
             </ProtectedRoute>
           }
@@ -66,7 +66,7 @@ export default function App() {
         <Route
           path='/reset-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ResetPassword />
             </ProtectedRoute>
           }
@@ -87,6 +87,14 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          }
+        />
         
         <Route path='*' element={<NotFound404 />} />
       </Routes>
@@ -103,6 +111,14 @@ export default function App() {
           />
           <Route
             path='/feed/:number'
+            element={
+              <Modal title='INGRED' onClose={() => navigate(-1)}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
             element={
               <Modal title='INGRED' onClose={() => navigate(-1)}>
                 <OrderInfo />

@@ -19,10 +19,14 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
-    if (!user.name) navigate('/login');
+    if (!user.name) {
+      navigate('/login');
+      return;
+    }
     dispatch(orderBurger(burger));
   };
   const closeOrderModal = () => {
+    if (orderRequest) return;
     dispatch(resetConstructor());
     dispatch(resetOrder());
   };

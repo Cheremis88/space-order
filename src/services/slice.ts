@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrdersData } from '@utils-types';
-import { TRegisterData, getIngredientsApi, getUserApi, registerUserApi, orderBurgerApi, TLoginData, loginUserApi } from '@api';
+import { TRegisterData, getIngredientsApi, getUserApi, registerUserApi, orderBurgerApi, TLoginData, loginUserApi, updateUserApi, getOrdersApi } from '@api';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
 import { TUser, TOrder } from '@utils-types';
@@ -22,7 +22,8 @@ type TAppState = {
   order: {
     number: number,
     request: boolean,
-  }
+  };
+  history: TOrder[];
   checkAuth: boolean;
   loading: boolean;
   error: string;
@@ -48,6 +49,7 @@ const appState: TAppState = {
     number: 0,
     request: false
   },
+  history: [],
   checkAuth: false,
   loading: true,
   error: ''
@@ -82,6 +84,12 @@ const mainSlice = createSlice({
       state.constructor.ingredients = state.constructor.ingredients.filter(
         (item) => item.id !== action.payload
       );
+    },
+    resetUser(state) {
+      state.user = {
+        name: '',
+        email: ''
+      }
     }
   },
   selectors: {
@@ -105,6 +113,9 @@ const mainSlice = createSlice({
     },
     selectOrder(state) {
       return state.order;
+    },
+    selectHistory(state) {
+      return state.history;
     }
   },
   extraReducers: (builder) => {
@@ -144,6 +155,19 @@ const mainSlice = createSlice({
         state.loading = false;
         state.error = '';
       })
+      .addCase(fetchHistory.pending, (state) => {
+        state.loading = true;
+        state.error = '';
+      })
+      .addCase(fetchHistory.rejected, (state) => {
+        state.loading = false;
+        state.error = 'Не удалось загрузить данные';
+      })
+      .addCase(fetchHistory.fulfilled, (state, action) => {
+        state.history = action.payload;
+        state.loading = false;
+        state.error = '';
+      })
       .addCase(fetchUser.rejected, (state, action) => {
         state.checkAuth = true;
         console.log(action.error.message);
@@ -163,6 +187,13 @@ const mainSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        console.log(action.error.message);
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        console.log(action.payload.user);
+        state.user = action.payload.user;
       })
       .addCase(orderBurger.pending, (state) => {
         state.order.request = true;
@@ -203,7 +234,15 @@ export const orderBurger = createAsyncThunk('order/post', async (ingreds: string
   orderBurgerApi(ingreds)
 );
 
-export const { addIngredient, moveItem, removeItem, resetConstructor, resetOrder } = mainSlice.actions;
+export const updateUser = createAsyncThunk('user/change', async (user: TRegisterData) =>
+  updateUserApi(user)
+);
+
+export const fetchHistory = createAsyncThunk('history/get', async () =>
+  getOrdersApi()
+);
+
+export const { addIngredient, moveItem, removeItem, resetConstructor, resetOrder, resetUser } = mainSlice.actions;
 export const {
   selectIngredients,
   selectFetchStatus,
@@ -211,6 +250,7 @@ export const {
   selectFeeds,
   selectUser,
   selectAuth,
-  selectOrder
+  selectOrder,
+  selectHistory
 } = mainSlice.selectors;
 export const mainReducer = mainSlice.reducer;
