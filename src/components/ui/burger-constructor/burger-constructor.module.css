@@ -11,6 +11,11 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  scrollbar-width: thin;
+}
+
+.elements_notEmpty {
+  margin-bottom: 16px;
 }
 
 .total {

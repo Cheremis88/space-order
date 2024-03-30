@@ -20,7 +20,7 @@ export const ConstructorPage: FC = () => {
     <>
       {isIngredientsLoading ? (
         <Preloader />
-      ) : error ? (
+      ) : !!error ? (
         <h3 style={{ margin: 'auto' }} className={`text text_type_main-large`}>
           {error}
         </h3>

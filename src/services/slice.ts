@@ -183,7 +183,7 @@ const mainSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.log(action.error.message);
+        state.error = 'Неверный адрес почты или пароль';
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload;
