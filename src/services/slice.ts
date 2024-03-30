@@ -1,7 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrdersData } from '@utils-types';
-import { TRegisterData, getIngredientsApi, getUserApi, registerUserApi, orderBurgerApi, TLoginData, loginUserApi, updateUserApi, getOrdersApi } from '@api';
+import {
+  TRegisterData,
+  getIngredientsApi,
+  getUserApi,
+  registerUserApi,
+  orderBurgerApi,
+  TLoginData,
+  loginUserApi,
+  updateUserApi,
+  getOrdersApi
+} from '@api';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
 import { TUser, TOrder } from '@utils-types';
@@ -20,8 +30,8 @@ type TAppState = {
   feeds: TOrdersData | null;
   user: TUser;
   order: {
-    number: number,
-    request: boolean,
+    number: number;
+    request: boolean;
   };
   history: TOrder[];
   checkAuth: boolean;
@@ -68,7 +78,7 @@ const mainSlice = createSlice({
       state.constructor = {
         bun: null,
         ingredients: []
-      }
+      };
     },
     resetOrder(state) {
       state.order.number = 0;
@@ -89,7 +99,7 @@ const mainSlice = createSlice({
       state.user = {
         name: '',
         email: ''
-      }
+      };
     }
   },
   selectors: {
@@ -218,31 +228,40 @@ export const fetchFeeds = createAsyncThunk('feeds/getAll', async () =>
   getFeedsApi()
 );
 
-export const fetchUser = createAsyncThunk('user/get', async () =>
-  getUserApi()
+export const fetchUser = createAsyncThunk('user/get', async () => getUserApi());
+
+export const registerUser = createAsyncThunk(
+  'user/reg',
+  async (user: TRegisterData) => registerUserApi(user)
 );
 
-export const registerUser = createAsyncThunk('user/reg', async (user: TRegisterData) =>
-  registerUserApi(user)
+export const loginUser = createAsyncThunk(
+  'user/login',
+  async (user: TLoginData) => loginUserApi(user)
 );
 
-export const loginUser = createAsyncThunk('user/login', async (user: TLoginData) =>
-  loginUserApi(user)
+export const orderBurger = createAsyncThunk(
+  'order/post',
+  async (ingreds: string[]) => orderBurgerApi(ingreds)
 );
 
-export const orderBurger = createAsyncThunk('order/post', async (ingreds: string[]) =>
-  orderBurgerApi(ingreds)
-);
-
-export const updateUser = createAsyncThunk('user/change', async (user: TRegisterData) =>
-  updateUserApi(user)
+export const updateUser = createAsyncThunk(
+  'user/change',
+  async (user: TRegisterData) => updateUserApi(user)
 );
 
 export const fetchHistory = createAsyncThunk('history/get', async () =>
   getOrdersApi()
 );
 
-export const { addIngredient, moveItem, removeItem, resetConstructor, resetOrder, resetUser } = mainSlice.actions;
+export const {
+  addIngredient,
+  moveItem,
+  removeItem,
+  resetConstructor,
+  resetOrder,
+  resetUser
+} = mainSlice.actions;
 export const {
   selectIngredients,
   selectFetchStatus,

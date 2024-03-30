@@ -1,4 +1,10 @@
-import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useParams
+} from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
 import {
@@ -95,7 +101,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 

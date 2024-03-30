@@ -10,9 +10,11 @@ export function ProtectedRoute({ children, onlyUnAuth }: ProtectedRouteProps) {
   const checkAuth = useSelector(selectAuth);
   const user = useSelector(selectUser).name;
   if (!checkAuth) return <Preloader />;
-  if (!user && !onlyUnAuth) return <Navigate replace to='/login' state={{from: location}} />;
+  if (!user && !onlyUnAuth)
+    return <Navigate replace to='/login' state={{ from: location }} />;
   if (user && onlyUnAuth) {
-    const fromProfile = location.state?.from?.pathname === '/profile' ? '/' : false;
+    const fromProfile =
+      location.state?.from?.pathname === '/profile' ? '/' : false;
     const from = fromProfile || location.state?.from || '/';
     return <Navigate replace to={from} />;
   }
