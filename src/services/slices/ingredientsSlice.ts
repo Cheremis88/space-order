@@ -39,24 +39,17 @@ const ingredientsSlice = createSlice({
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
         state.all = action.payload;
-        state.buns = action.payload.filter(
-          (item) => item.type === 'bun'
-        );
-        state.mains = action.payload.filter(
-          (item) => item.type === 'main'
-        );
-        state.sauces = action.payload.filter(
-          (item) => item.type === 'sauce'
-        );
+        state.buns = action.payload.filter((item) => item.type === 'bun');
+        state.mains = action.payload.filter((item) => item.type === 'main');
+        state.sauces = action.payload.filter((item) => item.type === 'sauce');
         state.loading = false;
         state.error = '';
       });
   }
 });
 
-export const fetchIngredients = createAsyncThunk(
-  'ingredients/get',
-  async () => getIngredientsApi()
+export const fetchIngredients = createAsyncThunk('ingredients/get', async () =>
+  getIngredientsApi()
 );
 
 export const { selectIngredients } = ingredientsSlice.selectors;

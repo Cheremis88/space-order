@@ -3,9 +3,9 @@ import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from '../../services/store';
-import { selectIngredients } from '../../services/slice';
+import { selectIngredients } from '../../services/slices/ingredientsSlice';
 import { useEffect } from 'react';
-import { fetchIngredients } from '../../services/slice';
+import { fetchIngredients } from '../../services/slices/ingredientsSlice';
 
 export const IngredientDetails: FC = () => {
   const ingredients = useSelector(selectIngredients);

@@ -39,9 +39,8 @@ const feedSlice = createSlice({
   }
 });
 
-export const fetchFeed = createAsyncThunk(
-  'feed/get',
-  async () => getFeedsApi()
+export const fetchFeed = createAsyncThunk('feed/get', async () =>
+  getFeedsApi()
 );
 
 export const { selectFeed } = feedSlice.selectors;

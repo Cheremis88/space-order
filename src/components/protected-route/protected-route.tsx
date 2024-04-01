@@ -1,6 +1,6 @@
 import { useSelector } from '../../services/store';
 import { Navigate } from 'react-router-dom';
-import { selectAuth, selectUser } from '../../services/slice';
+import { selectAuth, selectUser } from '../../services/slices/userSlice';
 import { Preloader } from '../ui/preloader';
 import { ProtectedRouteProps } from './type';
 import { useLocation } from 'react-router-dom';

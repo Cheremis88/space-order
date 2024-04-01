@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from '../../services/store';
-import { selectIngredients } from '../../services/slice';
+import { selectIngredients } from '../../services/slices/ingredientsSlice';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 
@@ -10,7 +10,6 @@ export const BurgerIngredients: FC = () => {
   const buns = ingredients.buns;
   const mains = ingredients.mains;
   const sauces = ingredients.sauces;
-
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
   const titleBunRef = useRef<HTMLHeadingElement>(null);
   const titleMainRef = useRef<HTMLHeadingElement>(null);

@@ -4,22 +4,24 @@ import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   selectConstructor,
-  selectOrder,
+  resetConstructor
+} from '../../services/slices/constructorSlice';
+import {
+  selectLastOrder,
   selectUser,
   orderBurger,
-  resetConstructor,
-  resetOrder
-} from '../../services/slice';
+  resetOrder,
+  selectStatus
+} from '../../services/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(selectConstructor);
-  const order = useSelector(selectOrder);
+  const orderNumber = useSelector(selectLastOrder);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const orderRequest = order.request;
-  const orderNumber = order.number;
+  const orderRequest = useSelector(selectStatus).loading;
   const ingredientsId = constructorItems.ingredients.map((item) => item._id);
   const burger = [constructorItems.bun?._id || '0', ...ingredientsId];
 

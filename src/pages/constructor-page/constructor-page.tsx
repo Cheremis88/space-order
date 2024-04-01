@@ -1,6 +1,9 @@
 import { useSelector } from '../../services/store';
 import { useDispatch } from '../../services/store';
-import { selectFetchStatus, fetchIngredients } from '../../services/slice';
+import {
+  selectIngredients,
+  fetchIngredients
+} from '../../services/slices/ingredientsSlice';
 import styles from './constructor-page.module.css';
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
@@ -9,16 +12,16 @@ import { useEffect } from 'react';
 import { FC } from 'react';
 
 export const ConstructorPage: FC = () => {
-  const [isIngredientsLoading, error] = useSelector(selectFetchStatus);
+  const { loading, error, all } = useSelector(selectIngredients);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchIngredients());
+    !all.length && dispatch(fetchIngredients());
   }, []);
 
   return (
     <>
-      {isIngredientsLoading ? (
+      {loading ? (
         <Preloader />
       ) : !!error ? (
         <h3 style={{ margin: 'auto' }} className={`text text_type_main-large`}>

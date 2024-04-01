@@ -4,23 +4,31 @@ import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
 import { useSelector } from '../../services/store';
 import { useDispatch } from '../../services/store';
-import { selectFeeds, fetchFeeds } from '../../services/slice';
+import { selectFeed, fetchFeed } from '../../services/slices/feedSlice';
+import {
+  selectIngredients,
+  fetchIngredients
+} from '../../services/slices/ingredientsSlice';
 
 export const Feed: FC = () => {
-  const feeds = useSelector(selectFeeds);
+  const feed = useSelector(selectFeed);
+  const ingreds = useSelector(selectIngredients).all;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFeeds());
+    if (!ingreds.length) {
+      dispatch(fetchIngredients());
+    }
+    dispatch(fetchFeed());
   }, []);
 
-  if (!feeds) {
+  if (!feed.feed) {
     return <Preloader />;
   }
   return (
     <FeedUI
-      orders={feeds.orders}
-      handleGetFeeds={() => dispatch(fetchFeeds())}
+      orders={feed.feed.orders}
+      handleGetFeeds={() => dispatch(fetchFeed())}
     />
   );
 };

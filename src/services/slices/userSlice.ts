@@ -1,6 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { TUser, TOrder } from '@utils-types';
-import { getOrdersApi, updateUserApi, orderBurgerApi, loginUserApi, registerUserApi, getUserApi, TRegisterData, TLoginData } from '@api';
+import {
+  getOrdersApi,
+  updateUserApi,
+  orderBurgerApi,
+  loginUserApi,
+  registerUserApi,
+  getUserApi,
+  TRegisterData,
+  TLoginData
+} from '@api';
 
 type TUserState = TUser & {
   orders: TOrder[];
@@ -16,7 +25,7 @@ const initialState: TUserState = {
   orders: [],
   lastOrder: 0,
   checkAuth: false,
-  loading: true,
+  loading: false,
   error: ''
 };
 
@@ -30,14 +39,15 @@ const userSlice = createSlice({
     resetUser(state) {
       state.name = '';
       state.email = '';
+      state.error = '';
     }
   },
   selectors: {
-    selectUserName: (state) => state.name,
+    selectUser: (state) => ({ name: state.name, email: state.email }),
     selectOrders: (state) => state.orders,
-    selectLastOrder: state => state.lastOrder,
-    selectAuth: state => state.checkAuth,
-    selectStatus: state => [state.loading, state.error]
+    selectLastOrder: (state) => state.lastOrder,
+    selectAuth: (state) => state.checkAuth,
+    selectStatus: (state) => ({ loading: state.loading, error: state.error })
   },
   extraReducers: (builder) => {
     builder
@@ -47,24 +57,21 @@ const userSlice = createSlice({
       })
       .addCase(fetchOrders.rejected, (state) => {
         state.loading = false;
-        state.error = 'Не удалось загрузить данные';
+        console.log('Не удалось загрузить историю заказов');
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
         state.loading = false;
       })
       .addCase(fetchUser.pending, (state) => {
-        state.loading = true;
         state.error = '';
       })
       .addCase(fetchUser.rejected, (state, action) => {
-        state.loading = false;
         state.checkAuth = true;
-        state.error = action.error.message || '';
+        console.log(action.error.message || '');
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.checkAuth = true;
-        state.loading = false;
         state.name = action.payload.user.name;
         state.email = action.payload.user.email;
       })
@@ -113,7 +120,7 @@ const userSlice = createSlice({
       })
       .addCase(orderBurger.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || '';
+        console.log(action.error.message || '');
       })
       .addCase(orderBurger.fulfilled, (state, action) => {
         state.loading = false;
@@ -148,5 +155,12 @@ export const fetchOrders = createAsyncThunk('orders/get', async () =>
   getOrdersApi()
 );
 
-export const { selectUserName, selectOrders, selectLastOrder, selectAuth, selectStatus } = userSlice.selectors;
+export const { resetOrder, resetUser } = userSlice.actions;
+export const {
+  selectUser,
+  selectOrders,
+  selectLastOrder,
+  selectAuth,
+  selectStatus
+} = userSlice.selectors;
 export const userReducer = userSlice.reducer;

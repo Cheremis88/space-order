@@ -25,8 +25,8 @@ import {
   ProfileOrders,
   NotFound404
 } from '@pages';
-import { useSelector, useDispatch } from '../../services/store';
-import { selectUser, fetchUser } from '../../services/slice';
+import { useDispatch } from '../../services/store';
+import { fetchUser } from '../../services/slices/userSlice';
 import { useEffect } from 'react';
 
 export default function App() {

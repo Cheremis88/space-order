@@ -4,14 +4,13 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from '../../services/store';
-import {
-  selectIngredients,
-  selectFeeds,
-  selectHistory,
-  fetchHistory
-} from '../../services/slice';
+import { selectIngredients } from '../../services/slices/ingredientsSlice';
+import { selectOrders } from '../../services/slices/userSlice';
+import { selectFeed } from '../../services/slices/feedSlice';
 import { useEffect } from 'react';
-import { fetchIngredients, fetchFeeds } from '../../services/slice';
+import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+import { fetchOrders } from '../../services/slices/userSlice';
+import { fetchFeed } from '../../services/slices/feedSlice';
 import { useLocation } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
@@ -19,9 +18,9 @@ export const OrderInfo: FC = () => {
   const isUserOrder = location.pathname.includes('profile');
   const isOutside = !location.state?.background;
   const ingredients = useSelector(selectIngredients).all;
-  const userOrders = useSelector(selectHistory);
-  const feed = useSelector(selectFeeds);
-  const orders = isUserOrder ? userOrders : feed?.orders;
+  const userOrders = useSelector(selectOrders);
+  const feed = useSelector(selectFeed);
+  const orders = isUserOrder ? userOrders : feed.feed?.orders;
   const dispatch = useDispatch();
   const { number } = useParams();
   const orderData = orders?.find((item) => item.number === Number(number));
@@ -29,7 +28,7 @@ export const OrderInfo: FC = () => {
   useEffect(() => {
     if (isOutside) {
       dispatch(fetchIngredients());
-      isUserOrder ? dispatch(fetchHistory()) : dispatch(fetchFeeds());
+      isUserOrder ? dispatch(fetchOrders()) : dispatch(fetchFeed());
     }
   }, []);
 

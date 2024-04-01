@@ -1,5 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { mainReducer } from './slice';
+import { constructorReducer } from './slices/constructorSlice';
+import { ingredientsReducer } from './slices/ingredientsSlice';
+import { feedReducer } from './slices/feedSlice';
+import { userReducer } from './slices/userSlice';
 import {
   TypedUseSelectorHook,
   useDispatch as dispatchHook,
@@ -8,7 +11,10 @@ import {
 
 const store = configureStore({
   reducer: {
-    main: mainReducer
+    ingredients: ingredientsReducer,
+    kit: constructorReducer,
+    feed: feedReducer,
+    user: userReducer
   },
   devTools: process.env.NODE_ENV !== 'production'
 });

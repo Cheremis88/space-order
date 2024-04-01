@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+/* import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrdersData } from '@utils-types';
 import {
@@ -273,3 +273,4 @@ export const {
   selectHistory
 } = mainSlice.selectors;
 export const mainReducer = mainSlice.reducer;
+ */
