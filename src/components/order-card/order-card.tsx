@@ -51,9 +51,9 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
       date
     };
   }, [order, ingredients]);
-  
+
   if (!orderInfo) return null;
-  
+
   return (
     <OrderCardUI
       orderInfo={orderInfo}
