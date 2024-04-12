@@ -12,7 +12,9 @@ const rootReducer = combineReducers({
   user: userReducer
 });
 
-test('Check store state with unknown action', () => {
-  expect(store.getState())
-    .toEqual(rootReducer(undefined, { type: 'unknown action' }));
+describe('Checking the rootReducer', () => {
+  test('reducer returns initial state with unknown action', () => {
+  expect(rootReducer(store.getState(), { type: 'unknown_action' }))
+    .toEqual(store.getState());
+  });
 });
