@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 import { getIngredientsApi } from '@api';
 
-type TIngredientsState = {
+export type TIngredientsState = {
   all: TIngredient[];
   buns: TIngredient[];
   mains: TIngredient[];
@@ -11,7 +11,7 @@ type TIngredientsState = {
   error: string;
 };
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   all: [],
   buns: [],
   mains: [],

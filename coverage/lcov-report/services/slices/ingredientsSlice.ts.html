@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.35% </span>
+                <span class="strong">98.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>45/56</span>
+                <span class='fraction'>55/56</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.35% </span>
+                <span class="strong">98.21% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>45/56</span>
+                <span class='fraction'>55/56</span>
             </div>
         
             
@@ -149,24 +149,24 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -179,7 +179,7 @@
 import { TIngredient } from '@utils-types';
 import { getIngredientsApi } from '@api';
 &nbsp;
-type TIngredientsState = {
+export type TIngredientsState = {
   all: TIngredient[];
   buns: TIngredient[];
   mains: TIngredient[];
@@ -188,7 +188,7 @@ type TIngredientsState = {
   error: string;
 };
 &nbsp;
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   all: [],
   buns: [],
   mains: [],
@@ -207,20 +207,20 @@ const ingredientsSlice = createSlice({
   extraReducers: (builder) =&gt; {
     builder
       .addCase(fetchIngredients.pending, (state) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.loading = true;</span>
-<span class="cstat-no" title="statement not covered" >        state.error = '';</span>
+        state.loading = true;
+        state.error = '';
       })
       .addCase(fetchIngredients.rejected, (state) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.loading = false;</span>
-<span class="cstat-no" title="statement not covered" >        state.error = 'Не удалось загрузить данные';</span>
+        state.loading = false;
+        state.error = 'Не удалось загрузить данные';
       })
       .addCase(fetchIngredients.fulfilled, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.all = action.payload;</span>
-<span class="cstat-no" title="statement not covered" >        state.buns = action.payload.filter((item) =&gt; item.type === 'bun');</span>
-<span class="cstat-no" title="statement not covered" >        state.mains = action.payload.filter((item) =&gt; item.type === 'main');</span>
-<span class="cstat-no" title="statement not covered" >        state.sauces = action.payload.filter((item) =&gt; item.type === 'sauce');</span>
-<span class="cstat-no" title="statement not covered" >        state.loading = false;</span>
-<span class="cstat-no" title="statement not covered" >        state.error = '';</span>
+        state.all = action.payload;
+        state.buns = action.payload.filter((item) =&gt; item.type === 'bun');
+        state.mains = action.payload.filter((item) =&gt; item.type === 'main');
+        state.sauces = action.payload.filter((item) =&gt; item.type === 'sauce');
+        state.loading = false;
+        state.error = '';
       });
   }
 });
@@ -238,7 +238,7 @@ export const ingredientsReducer = ingredientsSlice.reducer;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-12T11:17:23.478Z
+                at 2024-04-12T15:18:26.831Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

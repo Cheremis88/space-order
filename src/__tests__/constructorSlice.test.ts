@@ -102,7 +102,8 @@ const afterRemoveState: TConstructorState = {
   ]
 };
 
-describe('Checking the actions of constructorReducer', () => {
+describe('Tests for constructor slice', () => {
+  
   test('add ingredient (including bun)', () => {
     let testState = constructorReducer(
       mockState,
