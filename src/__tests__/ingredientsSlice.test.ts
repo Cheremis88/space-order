@@ -47,13 +47,13 @@ const pendingState: TIngredientsState = {
   ...initialState,
   loading: true,
   error: ''
-}
+};
 
 const rejectedState: TIngredientsState = {
   ...initialState,
   loading: false,
   error: 'Не удалось загрузить данные'
-}
+};
 
 const fulfilledState: TIngredientsState = {
   all: mockIngredients,
@@ -62,7 +62,7 @@ const fulfilledState: TIngredientsState = {
   sauces: [mockIngredients[2]],
   loading: false,
   error: ''
-}
+};
 
 const requestActions = {
   pending: {
