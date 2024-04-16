@@ -3,6 +3,7 @@ import {
   addIngredient,
   moveItem,
   removeItem,
+  resetConstructor,
   TConstructorState
 } from '../services/slices/constructorSlice';
 import { TConstructorIngredient } from '@utils-types';
@@ -141,5 +142,13 @@ describe('Tests for constructor slice', () => {
       removeItem('test2')
     );
     expect(testState).toEqual(afterRemoveState);
+  });
+
+  test('reset constructor', () => {
+    let testState = constructorReducer(
+      mockState,
+      resetConstructor()
+    );
+    expect(testState).toEqual({ bun: null, ingredients: [] });
   });
 });
