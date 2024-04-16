@@ -1,0 +1,77 @@
+{
+  "success": true,
+  "name": "Астероидный space флюоресцентный люминесцентный бургер",
+  "order": {
+      "ingredients": [
+          {
+              "_id": "643d69a5c3f7b9001cfa093d",
+              "name": "Флюоресцентная булка R2-D3",
+              "type": "bun",
+              "proteins": 44,
+              "fat": 26,
+              "carbohydrates": 85,
+              "calories": 643,
+              "price": 988,
+              "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+              "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+              "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+              "__v": 0
+          },
+          {
+              "_id": "643d69a5c3f7b9001cfa093e",
+              "name": "Филе Люминесцентного тетраодонтимформа",
+              "type": "main",
+              "proteins": 44,
+              "fat": 26,
+              "carbohydrates": 85,
+              "calories": 643,
+              "price": 988,
+              "image": "https://code.s3.yandex.net/react/code/meat-03.png",
+              "image_mobile": "https://code.s3.yandex.net/react/code/meat-03-mobile.png",
+              "image_large": "https://code.s3.yandex.net/react/code/meat-03-large.png",
+              "__v": 0
+          },
+          {
+              "_id": "643d69a5c3f7b9001cfa094a",
+              "name": "Сыр с астероидной плесенью",
+              "type": "main",
+              "proteins": 84,
+              "fat": 48,
+              "carbohydrates": 420,
+              "calories": 3377,
+              "price": 4142,
+              "image": "https://code.s3.yandex.net/react/code/cheese.png",
+              "image_mobile": "https://code.s3.yandex.net/react/code/cheese-mobile.png",
+              "image_large": "https://code.s3.yandex.net/react/code/cheese-large.png",
+              "__v": 0
+          },
+          {
+              "_id": "643d69a5c3f7b9001cfa0943",
+              "name": "Соус фирменный Space Sauce",
+              "type": "sauce",
+              "proteins": 50,
+              "fat": 22,
+              "carbohydrates": 11,
+              "calories": 14,
+              "price": 80,
+              "image": "https://code.s3.yandex.net/react/code/sauce-04.png",
+              "image_mobile": "https://code.s3.yandex.net/react/code/sauce-04-mobile.png",
+              "image_large": "https://code.s3.yandex.net/react/code/sauce-04-large.png",
+              "__v": 0
+          }
+      ],
+      "_id": "661d5b6897ede0001d065bd5",
+      "owner": {
+          "name": "Superman",
+          "email": "superman@test.ru",
+          "createdAt": "2024-03-29T11:00:02.040Z",
+          "updatedAt": "2024-04-01T11:08:54.767Z"
+      },
+      "status": "done",
+      "name": "Астероидный space флюоресцентный люминесцентный бургер",
+      "createdAt": "2024-04-15T16:52:56.256Z",
+      "updatedAt": "2024-04-15T16:52:57.461Z",
+      "number": 38144,
+      "price": 6198
+  }
+}
