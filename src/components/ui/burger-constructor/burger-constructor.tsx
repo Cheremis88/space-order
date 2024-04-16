@@ -42,7 +42,6 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
         styles.elements,
         constructorItems.ingredients.length > 0 && styles.elements_notEmpty
       )}
-      data-cy='filling'
     >
       {constructorItems.ingredients.length > 0 ? (
         constructorItems.ingredients.map(

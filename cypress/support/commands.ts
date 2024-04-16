@@ -11,21 +11,9 @@
 import './commands';
 //
 // -- This is a parent command --
-Cypress.Commands.add('getUserIntercept', () => { 
-  cy.intercept(
-    'GET',
-    '*/auth/user',
-    { fixture: 'user.json' }
-  ).as('getUser');
- });
-
- Cypress.Commands.add('getIngredientsIntercept', () => { 
-  cy.intercept(
-    'GET',
-    '*/ingredients',
-    { fixture: 'ingredients.json' }
-  ).as('getIngredients');
- });
+Cypress.Commands.add('addIngredients', (...names) => {
+  names.forEach(name => cy.get(name).find('button').click());
+});
 //
 //
 // -- This is a child command --
@@ -42,8 +30,7 @@ Cypress.Commands.add('getUserIntercept', () => {
 declare global {
   namespace Cypress {
     interface Chainable {
-      getUserIntercept(): Chainable<void>,
-      getIngredientsIntercept(): Chainable<void>,
+      addIngredients(...names: string[]): Chainable<void>,
     }
   }
 }
