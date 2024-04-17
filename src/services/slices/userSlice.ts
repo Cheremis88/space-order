@@ -11,7 +11,7 @@ import {
   TLoginData
 } from '@api';
 
-type TUserState = TUser & {
+export type TUserState = TUser & {
   orders: TOrder[];
   lastOrder: number;
   checkAuth: boolean;
@@ -19,7 +19,7 @@ type TUserState = TUser & {
   error: string;
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   name: '',
   email: '',
   orders: [],
@@ -68,7 +68,7 @@ const userSlice = createSlice({
       })
       .addCase(fetchUser.rejected, (state, action) => {
         state.checkAuth = true;
-        console.log(action.error.message || '');
+        console.log(action.error?.message || '');
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.checkAuth = true;
